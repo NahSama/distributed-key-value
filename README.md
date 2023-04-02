@@ -1,4 +1,4 @@
-#Follower Read (quorum read)
+# Follower Read (quorum read)
 ## Cannot perform 
 Even replica can query all nodes' addresses of the current cluster, 
 these addresses are used for only AppendEntries and RequestVote RPCs
