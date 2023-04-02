@@ -1,5 +1,3 @@
-# Follower Read (quorum read)
-=======
 # Distributed Key-Value Store
 - Use Raft as consensus module
 - Use BotlDB as log store
