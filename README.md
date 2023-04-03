@@ -10,7 +10,7 @@
 # Follower Read (quorum read)
 ## Cannot perform 
 Although a replica can query all nodes' addresses of the current cluster, 
-these addresses are used for only AppendEntries and RequestVote RPCs
+these addresses are used only for AppendEntries and RequestVote RPCs
 
 ## Two ways to achieve this 
 - add another rpc/http address that Raft needs to keep track 
