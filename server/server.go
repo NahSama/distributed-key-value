@@ -3,8 +3,8 @@ package server
 import (
 	"distributed-db/server/raft_handler"
 	"distributed-db/server/store_handler"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/dgraph-io/badger/v2"
-	"github.com/hashicorp/raft"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"

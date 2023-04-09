@@ -1,6 +1,6 @@
 package fsm
 
-import "github.com/hashicorp/raft"
+import raft "github.com/NahSama/raft-modified"
 
 type snapshotNoop struct {
 }

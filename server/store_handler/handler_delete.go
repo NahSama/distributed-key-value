@@ -4,7 +4,7 @@ import (
 	"distributed-db/fsm"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/raft"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strings"

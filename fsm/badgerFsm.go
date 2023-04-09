@@ -3,8 +3,8 @@ package fsm
 import (
 	"encoding/json"
 	"fmt"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/dgraph-io/badger/v2"
-	"github.com/hashicorp/raft"
 	"io"
 	"os"
 	"strings"

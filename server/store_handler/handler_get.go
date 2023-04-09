@@ -1,9 +1,10 @@
 package store_handler
 
 import (
+	"distributed-db/global"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/raft"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"io"
@@ -85,12 +86,14 @@ func (h *handler) Get(eCtx echo.Context) error {
 			continue
 		}
 
-		//if serverId == h.raft.
+		if server.ID == raft.ServerID(global.GlobalConfig.Raft.NodeId) {
+			continue
+		}
 		go func(rServer raft.Server, key string) {
 			wg.Add(1)
-			fmt.Printf("FollowerRead - Sending request to %s", rServer.Address)
+			fmt.Printf("FollowerRead - Sending request to %s ", rServer.HTTPAddress)
 			defer wg.Done()
-			url := fmt.Sprintf("http://%s/store/follower-read/%s", rServer.Address, key)
+			url := fmt.Sprintf("http://%s/store/follower-read/%s", rServer.HTTPAddress, key)
 			httpResp, err := http.Get(url)
 			if err != nil {
 				return

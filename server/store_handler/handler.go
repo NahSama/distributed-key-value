@@ -1,8 +1,8 @@
 package store_handler
 
 import (
+	raft "github.com/NahSama/raft-modified"
 	"github.com/dgraph-io/badger/v2"
-	"github.com/hashicorp/raft"
 )
 
 type KeyValue struct {

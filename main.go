@@ -2,11 +2,12 @@ package main
 
 import (
 	"distributed-db/fsm"
+	"distributed-db/global"
+	raft_badgerdb "distributed-db/raft-badgerdb"
 	"distributed-db/server"
 	"fmt"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/dgraph-io/badger/v2"
-	"github.com/hashicorp/raft"
-	"github.com/hashicorp/raft-boltdb"
 	"github.com/spf13/viper"
 	"log"
 	"net"
@@ -15,23 +16,7 @@ import (
 	"time"
 )
 
-// configRaft configuration for raft node
-type configRaft struct {
-	NodeId    string `mapstructure:"node_id"`
-	Port      int    `mapstructure:"port"`
-	VolumeDir string `mapstructure:"volume_dir"`
-}
-
-// configServer configuration for HTTP server
-type configServer struct {
-	Port int `mapstructure:"port"`
-}
-
 // config configuration
-type config struct {
-	Server configServer `mapstructure:"server"`
-	Raft   configRaft   `mapstructure:"raft"`
-}
 
 const (
 	serverPort = "SERVER_PORT"
@@ -78,17 +63,17 @@ func main() {
 		return
 	}
 
-	conf := config{
-		Server: configServer{
+	conf := global.Config{
+		Server: global.ConfigServer{
 			Port: v.GetInt(serverPort),
 		},
-		Raft: configRaft{
+		Raft: global.ConfigRaft{
 			NodeId:    v.GetString(raftNodeId),
 			Port:      v.GetInt(raftPort),
 			VolumeDir: v.GetString(raftVolDir),
 		},
 	}
-
+	global.GlobalConfig = conf
 	log.Printf("%+v\n", conf)
 
 	// Preparing badgerDB
@@ -113,7 +98,7 @@ func main() {
 
 	fsmStore := fsm.NewBadger(badgerDB)
 
-	store, err := raftboltdb.NewBoltStore(filepath.Join(conf.Raft.VolumeDir, "raft.dataRepo"))
+	store, err := raft_badgerdb.NewBadgerStore(filepath.Join(conf.Raft.VolumeDir, "raft.dataRepo"))
 	if err != nil {
 		log.Fatal(err)
 		return

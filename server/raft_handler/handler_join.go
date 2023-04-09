@@ -2,7 +2,7 @@ package raft_handler
 
 import (
 	"fmt"
-	"github.com/hashicorp/raft"
+	raft "github.com/NahSama/raft-modified"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -10,6 +10,7 @@ import (
 type requestJoin struct {
 	NodeId      string `json:"node_id"`
 	RaftAddress string `json:"raft_address"`
+	HttpAddress string `json:"http_address"`
 }
 
 func (h *handler) JoinRaftHandler(eCtx echo.Context) error {
@@ -23,6 +24,7 @@ func (h *handler) JoinRaftHandler(eCtx echo.Context) error {
 	var (
 		nodeId      = form.NodeId
 		raftAddress = form.RaftAddress
+		httpAddress = form.HttpAddress
 	)
 
 	if h.raft.State() != raft.Leader {
@@ -38,7 +40,7 @@ func (h *handler) JoinRaftHandler(eCtx echo.Context) error {
 		})
 	}
 
-	future := h.raft.AddVoter(raft.ServerID(nodeId), raft.ServerAddress(raftAddress), 0, 0)
+	future := h.raft.AddVoter(raft.ServerID(nodeId), raft.ServerAddress(raftAddress), httpAddress, 0, 0)
 	if err := future.Error(); err != nil {
 		return eCtx.JSON(http.StatusUnprocessableEntity, map[string]interface{}{
 			"error": fmt.Sprintf("failed to add voter: %s", future.Error().Error()),
