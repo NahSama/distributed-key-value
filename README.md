@@ -1,6 +1,6 @@
 # Distributed Key-Value Store
-- Use Raft as consensus module
-- Use BotlDB as log store
+- Use Raft as consensus module (modified Hashicorp/Raft to achieve Follower Read)
+- Use BadgerDB as log store (own module)
 - Use BadgerDB as persistent storage
 
 # Commands
